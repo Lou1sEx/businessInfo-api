@@ -49,6 +49,8 @@ app = FastAPI(openapi_url="/api/v1/api.json", title="看准-企业工商信息�
 
 class SearchItem(BaseModel):
     query: str = Field(..., example='哔哩哔哩')
+    cityCode: str = Field(..., example=0)
+    industryCodes: str = Field(..., example='')
     pageNum: str = Field(..., example=1)
     limit: str = Field(..., example=15)
 
@@ -121,9 +123,11 @@ async def pub_req(**kwargs):
 # 查询
 async def query(**kwargs):
     meta = {
-        "url": "https://www.kanzhun.com/search/comprehensive.json",
+        "url": "https://www.kanzhun.com/api/search/company_v2.json",
         "params": {
             "query": kwargs.get("query", "哔哩哔哩"),
+            "cityCode": kwargs.get("cityCode", 0),
+            "industryCodes": kwargs.get("industryCodes", ""),
             "pageNum": kwargs.get("pageNum", 1),
             "limit": kwargs.get("limit", 15),
         },
